@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
@@ -13,7 +12,7 @@ import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Bot, Save, Sparkles, Loader2, AlertCircle, Key } from "lucide-react"
+import { Bot, Save, Sparkles, Loader2, AlertCircle } from "lucide-react"
 import { useAgentConfig, useUpdateAgentConfig } from "@/lib/hooks/use-agent"
 import type { AgentConfigInput } from "@/lib/validations/agent"
 import { useToast } from "@/lib/hooks/use-toast"
@@ -126,9 +125,8 @@ export default function AgentConfigPage() {
 
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <Tabs defaultValue="personality" className="w-full">
-          <TabsList className="grid w-full grid-cols-4 lg:w-[500px]">
+          <TabsList className="grid w-full grid-cols-3 lg:w-[400px]">
             <TabsTrigger value="personality">Personality</TabsTrigger>
-            <TabsTrigger value="ai">AI Model</TabsTrigger>
             <TabsTrigger value="products">Products</TabsTrigger>
             <TabsTrigger value="workflow">Workflow</TabsTrigger>
           </TabsList>
@@ -220,68 +218,6 @@ export default function AgentConfigPage() {
                     <li>• Include guidelines for handling objections</li>
                     <li>• Set boundaries for what the agent can and cannot do</li>
                   </ul>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="ai" className="space-y-6">
-            <Card className="border-border bg-card">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Key className="h-5 w-5" />
-                  Gemini AI Configuration
-                </CardTitle>
-                <CardDescription>Configure your Gemini API settings for AI responses</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <Alert>
-                  <AlertCircle className="h-4 w-4" />
-                  <AlertDescription>
-                    Get your Gemini API key from{" "}
-                    <a
-                      href="https://aistudio.google.com/app/apikey"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="underline"
-                    >
-                      Google AI Studio
-                    </a>
-                  </AlertDescription>
-                </Alert>
-
-                <div className="space-y-2">
-                  <Label htmlFor="geminiApiKey">Gemini API Key</Label>
-                  <Input
-                    id="geminiApiKey"
-                    type="password"
-                    placeholder="Enter your Gemini API key..."
-                    className="bg-secondary font-mono"
-                    {...form.register("geminiApiKey")}
-                  />
-                  <p className="text-sm text-muted-foreground">
-                    Your API key is stored securely and only used for generating AI responses
-                  </p>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="geminiModel">Gemini Model</Label>
-                  <Select
-                    value={form.watch("geminiModel") || "gemini-2.0-flash-exp"}
-                    onValueChange={(value) => form.setValue("geminiModel", value)}
-                  >
-                    <SelectTrigger id="geminiModel" className="bg-secondary">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="gemini-2.0-flash-exp">Gemini 2.0 Flash (Experimental)</SelectItem>
-                      <SelectItem value="gemini-1.5-pro">Gemini 1.5 Pro</SelectItem>
-                      <SelectItem value="gemini-1.5-flash">Gemini 1.5 Flash</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <p className="text-sm text-muted-foreground">
-                    Choose the Gemini model that best fits your needs. Flash models are faster and more cost-effective.
-                  </p>
                 </div>
               </CardContent>
             </Card>

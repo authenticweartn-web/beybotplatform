@@ -48,14 +48,26 @@ export async function POST(request: Request) {
     // Build system prompt with context
     const systemPrompt = buildSystemPrompt(agentConfig, products || [])
 
-    const geminiApiKey = agentConfig.gemini_api_key || process.env.GEMINI_API_KEY
+    const { data: geminiKeySetting } = await supabase
+      .from("system_settings")
+      .select("setting_value")
+      .eq("setting_key", "gemini_api_key")
+      .single()
+
+    const { data: geminiModelSetting } = await supabase
+      .from("system_settings")
+      .select("setting_value")
+      .eq("setting_key", "gemini_model")
+      .single()
+
+    const geminiApiKey = geminiKeySetting?.setting_value || process.env.GEMINI_API_KEY
 
     if (!geminiApiKey) {
-      console.error("[v0] No Gemini API key configured")
-      return NextResponse.json({ error: "Gemini API key not configured" }, { status: 500 })
+      console.error("[v0] No Gemini API key configured in system settings")
+      return NextResponse.json({ error: "Gemini API key not configured by admin" }, { status: 500 })
     }
 
-    const geminiModel = agentConfig.gemini_model || "gemini-2.0-flash-exp"
+    const geminiModel = geminiModelSetting?.setting_value || "gemini-2.0-flash-exp"
 
     console.log("[v0] Using Gemini model:", geminiModel)
 

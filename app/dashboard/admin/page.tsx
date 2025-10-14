@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Users, MessageSquare, ShoppingCart, DollarSign, Package, Facebook, Shield } from "lucide-react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import AISettingsTab from "./ai-settings-tab"
 
 interface AdminStats {
   totalUsers: number
@@ -191,6 +192,7 @@ export default function AdminPage() {
             <TabsList>
               <TabsTrigger value="users">Users</TabsTrigger>
               <TabsTrigger value="activity">Activity Log</TabsTrigger>
+              <TabsTrigger value="ai-settings">AI Settings</TabsTrigger>
             </TabsList>
 
             <TabsContent value="users" className="space-y-4">
@@ -290,6 +292,10 @@ export default function AdminPage() {
                   </Table>
                 </CardContent>
               </Card>
+            </TabsContent>
+
+            <TabsContent value="ai-settings" className="space-y-4">
+              <AISettingsTab />
             </TabsContent>
           </Tabs>
         </>

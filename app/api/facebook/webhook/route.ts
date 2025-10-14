@@ -190,7 +190,6 @@ async function triggerAIResponse(
 
     console.log("[v0] Agent config:", {
       auto_respond: agentConfig.auto_respond,
-      has_gemini_key: !!agentConfig.gemini_api_key,
     })
 
     if (!agentConfig.auto_respond) {
@@ -198,8 +197,14 @@ async function triggerAIResponse(
       return
     }
 
-    if (!agentConfig.gemini_api_key && !process.env.GEMINI_API_KEY) {
-      console.error("[v0] No Gemini API key configured")
+    const { data: geminiKeySetting } = await supabase
+      .from("system_settings")
+      .select("setting_value")
+      .eq("setting_key", "gemini_api_key")
+      .single()
+
+    if (!geminiKeySetting?.setting_value && !process.env.GEMINI_API_KEY) {
+      console.error("[v0] No Gemini API key configured in system settings")
       return
     }
 
